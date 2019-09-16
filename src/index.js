@@ -2,9 +2,11 @@ const app = require("express")()
 const cors = require("cors")()
 const bodyParser = require("body-parser").json()
 
+const database = require("./database")
+
 app.use(
   cors,
-  bodyParser
+  bodyParser,
 )
 
 const port = process.env.PORT || 4000
