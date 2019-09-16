@@ -2,7 +2,8 @@ const app = require("express")()
 const cors = require("cors")()
 const bodyParser = require("body-parser").json()
 
-const database = require("./database")
+const User = require("./user/model")
+const Room = require("./room/model")
 
 app.use(
   cors,
