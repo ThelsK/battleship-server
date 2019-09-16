@@ -1,10 +1,14 @@
 const Sequelize = require("sequelize");
-const database = require("../database");
-const User = require("../user/model")
-const AvailableShip = require("../availableShip/model")
-const Notification = require("../notification/model")
+const { database } = require("../database");
+const User = require("../user/model");
+const AvailableShip = require("../availableShip/model");
+const Notification = require("../notification/model");
 
 const Room = database.define("room", {
+  roomname: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   status: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -32,8 +36,8 @@ const Room = database.define("room", {
   }
 });
 
-Room.hasMany(User)
-Room.hasMany(AvailableShip)
-Room.hasMany(Notification)
+Room.hasMany(User);
+Room.hasMany(AvailableShip);
+Room.hasMany(Notification);
 
 module.exports = Room;
