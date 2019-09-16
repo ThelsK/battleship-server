@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const database = require("../database");
+const { database } = require("../database");
 
 const AvailableShip = database.define("available_ship", {
   length: {

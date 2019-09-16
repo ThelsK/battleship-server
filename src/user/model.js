@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
-const database = require("../database");
-const Square = require("../square/model")
-const Ship = require("../ship/model")
+const { database } = require("../database");
+const Square = require("../square/model");
+const Ship = require("../ship/model");
 
 const User = database.define("user", {
   username: {
@@ -29,7 +29,7 @@ const User = database.define("user", {
   }
 });
 
-User.hasMany(Square)
-User.hasMany(Ship)
+User.hasMany(Square);
+User.hasMany(Ship);
 
-module.exports = User
+module.exports = User;
