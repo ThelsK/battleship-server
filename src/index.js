@@ -2,11 +2,11 @@ const app = require("express")();
 const cors = require("cors")();
 const bodyParser = require("body-parser").json();
 
-const userRouter = require("./user/router")
-const jwtRouter = require("./auth/router")
+const userRouter = require("./user/router");
+const jwtRouter = require("./auth/router");
 
 const { databaseSync } = require("./database");
-const streamRouter = require("./stream");
+const { streamRouter } = require("./stream");
 const exampleData = require("./example");
 
 databaseSync().then(exampleData);

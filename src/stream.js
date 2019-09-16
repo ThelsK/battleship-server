@@ -8,10 +8,10 @@ const User = require("./user/model");
 const Ship = require("./ship/model");
 const Square = require("./square/model");
 
-const router = new Router();
+const streamRouter = new Router();
 const stream = new Sse();
 
-router.get("/stream", (req, res) => {
+streamRouter.get("/stream", (req, res) => {
   Room.findAll({
     include: [
       AvailableShip,
@@ -27,4 +27,22 @@ router.get("/stream", (req, res) => {
   });
 });
 
-module.exports = router;
+const streamUpdate = () => {
+  Room.findAll({
+    include: [
+      AvailableShip,
+      Notification,
+      {
+        model: User,
+        include: [Ship, Square]
+      }
+    ]
+  }).then(rooms => {
+    stream.send(JSON.stringify(rooms));
+  });
+};
+
+module.exports = {
+  streamRouter,
+  streamUpdate
+};
