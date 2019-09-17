@@ -1,9 +1,9 @@
-const Room = require("./room/model");
-const AvailableShip = require("./availableShip/model");
-const Notification = require("./notification/model");
-const User = require("./user/model");
-const Ship = require("./ship/model");
-const Square = require("./square/model");
+const Room = require("./room/model")
+const AvailableShip = require("./availableShip/model")
+const Notification = require("./notification/model")
+const User = require("./user/model")
+const Ship = require("./ship/model")
+const Square = require("./square/model")
 
 const exampleData = () => {
   Room.findOrCreate({
@@ -14,13 +14,13 @@ const exampleData = () => {
       defaults: {
         roomId: 1
       }
-    });
+    })
     Notification.findOrCreate({
       where: { content: "Hello World!" },
       defaults: {
         roomId: 1
       }
-    });
+    })
     User.findOrCreate({
       where: { username: "Apple" },
       defaults: {
@@ -36,7 +36,7 @@ const exampleData = () => {
           direction: "vert",
           length: 4
         }
-      });
+      })
       Square.findOrCreate({
         where: { hori_pos: 3 },
         defaults: {
@@ -44,25 +44,16 @@ const exampleData = () => {
           status: "hit",
           vert_pos: 5
         }
-      });
-    });
+      })
+    })
     User.findOrCreate({
       where: { username: "Banana" },
       defaults: {
         password: "XXX",
         roomId: 1
       }
-    });
-  });
-  Room.findOrCreate({
-    where: { roomname: "Veggies" }
-  });
-  Room.findOrCreate({
-    where: { roomname: "Meat" }
-  });
-  Room.findOrCreate({
-    where: { roomname: "Fish" }
-  });
-};
+    })
+  })
+}
 
-module.exports = exampleData;
+module.exports = exampleData

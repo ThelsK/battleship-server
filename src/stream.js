@@ -24,30 +24,19 @@ const streamUpdate = async () => {
 
 const streamData = async () => {
   data = await Room.findAll({
-    order: [
-      ["id", "DESC"]
-    ],
     include: [
       AvailableShip,
-      // {
-      //   Model: AvailableShip,
-      //   order: [
-      //     ["id", "ASC"]
-      //   ],
-      // },
-      // {
-      //   Model: Notification,
-      //   order: [
-      //     ["id", "ASC"]
-      //   ],
-      // },
-      // {
-      //   model: User,
-      //   order: [
-      //     ["join_date", "ASC"]
-      //   ],
-      //   include: [Ship, Square],
-      // },
+      Notification,
+      {
+        model: User,
+        include: [Ship, Square],
+      },
+    ],
+    order: [
+      ["id", "DESC"],
+      [AvailableShip, "id", "ASC"],
+      [Notification, "id", "ASC"],
+      [User, "join_date", "ASC"],
     ],
   })
   return JSON.stringify(data)

@@ -63,7 +63,7 @@ roomRouter.post("/joinroom", async (req, res) => {
       roomId: room.id,
     })
     await req.user.update({
-      join_date: new Date().getTime(),
+      join_date: new Date().toISOString(),
       roomId: room.id,
     })
     streamUpdate()
