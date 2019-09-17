@@ -24,6 +24,22 @@ userRouter.post("/register", async (req, res, next) => {
       })
     }
 
+    if (!req.body.passwordCopy || !req.body.passwordCopy.trim()) {
+      return res.status(400).send({
+        success: false,
+        message: "Please provide a copy of the password.",
+      })
+    }
+
+    if (req.body.password.trim().toLowerCase() !==
+      req.body.passwordCopy.trim().toLowerCase()) {
+
+      return res.status(400).send({
+        success: false,
+        message: "The password and the copy are not identical.",
+      })
+    }
+
     if (req.body.username.trim().toLowerCase() ===
       req.body.password.trim().toLowerCase()) {
 
