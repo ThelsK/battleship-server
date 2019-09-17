@@ -2,9 +2,9 @@ const app = require("express")()
 const cors = require("cors")()
 const bodyParser = require("body-parser").json()
 
+const { streamRouter } = require("./stream")
 const userRouter = require("./user")
 const authMiddleware = require("./auth")
-const { streamRouter } = require("./stream")
 const roomRouter = require("./room")
 const gameRouter = require("./game")
 
@@ -14,9 +14,9 @@ const exampleData = require("./example")
 app.use(
   cors,
   bodyParser,
+  streamRouter,
   userRouter,
   authMiddleware,
-  streamRouter,
   roomRouter,
   gameRouter,
 )

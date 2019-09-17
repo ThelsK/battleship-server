@@ -1,6 +1,7 @@
 const { Router } = require("express")
 
 const Room = require("./model")
+const Notification = require("../notification/model")
 const { streamUpdate } = require("../stream")
 
 const roomRouter = new Router()
@@ -16,8 +17,12 @@ roomRouter.post("/createroom", async (req, res) => {
     }
 
     room = await Room.create({ roomname: req.body.roomname })
+    await Notification.create({
+      content: `${req.user.username} has created the room.`,
+      roomId: room.id,
+    })
     await req.user.update({
-      join_date: new Date().getTime(),
+      join_date: new Date().toISOString(),
       roomId: room.id,
     })
     streamUpdate()
@@ -53,6 +58,10 @@ roomRouter.post("/joinroom", async (req, res) => {
       })
     }
 
+    await Notification.create({
+      content: `${req.user.username} has joined the room.`,
+      roomId: room.id,
+    })
     await req.user.update({
       join_date: new Date().getTime(),
       roomId: room.id,
@@ -93,6 +102,10 @@ roomRouter.post("/leaveroom", async (req, res) => {
       })
     }
 
+    await Notification.create({
+      content: `${req.user.username} has left the room.`,
+      roomId: room.id,
+    })
     await req.user.update({ roomId: null })
     // =================================================================
     // ========== If the room is empty, it must be destroyed! ==========

@@ -29,7 +29,7 @@ const User = database.define("user", {
     defaultValue: false,
   },
   join_date: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DATE,
     allowNull: false,
     defaultValue: 0,
   },
