@@ -1,19 +1,17 @@
-const Sequelize = require("sequelize");
+const Sequelize = require("sequelize")
 
-const databaseUrl =
-  process.env.DATABASE_URL ||
-  "postgres://postgres:secret@localhost:5432/postgres";
-const database = new Sequelize(databaseUrl);
+const databaseUrl = process.env.DATABASE_URL ||
+  "postgres://postgres:secret@localhost:5432/postgres"
+const database = new Sequelize(databaseUrl)
 
 const databaseSync = () =>
-  database
-    .sync({ force: false })
+  database.sync({ force: false })
     .then(() => {
-      console.log("Database initialized successfully");
+      console.log("Database initialized successfully")
     })
-    .catch(err => {
-      console.error("Unable to initialize database:", err);
-      process.exit(1);
-    });
+    .catch(error => {
+      console.error("Unable to initialize database:", error)
+      process.exit(1)
+    })
 
-module.exports = { database, databaseSync };
+module.exports = { database, databaseSync }
