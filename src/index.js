@@ -4,22 +4,24 @@ const bodyParser = require("body-parser").json()
 
 const userRouter = require("./user")
 const authMiddleware = require("./auth")
-const roomRouter = require("./room")
 const { streamRouter } = require("./stream")
+const roomRouter = require("./room")
+const gameRouter = require("./game")
 
 const { databaseSync } = require("./database")
 const exampleData = require("./example")
-
-databaseSync().then(exampleData)
 
 app.use(
   cors,
   bodyParser,
   userRouter,
   authMiddleware,
-  roomRouter,
   streamRouter,
+  roomRouter,
+  gameRouter,
 )
 
 const port = process.env.PORT || 4000
 app.listen(port, () => console.log(`Listening on :${port}`))
+
+databaseSync().then(exampleData)

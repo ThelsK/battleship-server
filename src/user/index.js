@@ -1,13 +1,13 @@
-const Sequelize = require("sequelize")
 const { Router } = require("express")
+const Sequelize = require("sequelize")
 const bcrypt = require("bcrypt")
 
-const User = require("./model")
 const { toJWT } = require("../auth/jwt")
+const User = require("./model")
 
 const userRouter = new Router()
 
-userRouter.post("/register", async (req, res, next) => {
+userRouter.post("/register", async (req, res) => {
   try {
 
     if (!req.body.username || !req.body.username.trim()) {
@@ -86,7 +86,7 @@ userRouter.post("/register", async (req, res, next) => {
   }
 })
 
-userRouter.post("/login", async (req, res, next) => {
+userRouter.post("/login", async (req, res) => {
   try {
 
     if (!req.body.username || !req.body.username.trim()) {

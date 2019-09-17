@@ -1,30 +1,41 @@
-const User = require('../user/model')
-const { toData } = require('./jwt')
+const { toData } = require("./jwt")
+const User = require("../user/model")
 
-function auth(req, res, next) {
-  const auth = req.headers.authorization && req.headers.authorization.split(' ')
-  if (auth && auth[0] === 'Bearer' && auth[1]) {
-    try {
-      const data = toData(auth[1])
-      User
-        .findByPk(data.userId)
-        .then(user => {
-          if (!user) return next('Token is not valid')
+const auth = async (req, res, next) => {
+  console.log()
+  const auth = req.headers.authorization &&
+    req.headers.authorization.split(" ")
 
-          req.user = user
-          next()
-        })
-        .catch(next)
-    }
-    catch(error) {
-      res.status(400).send({
-        message: `Error ${error.name}: ${error.message}`,
+  if (!auth || auth[0] !== "Bearer" || !auth[1]) {
+    return res.status(401).send({
+      success: false,
+      message: "Please provide a proper authorization token.",
+    })
+  }
+
+  try {
+    const data = toData(auth[1])
+    const user = data && await User.findByPk(data.userId)
+    if (!user) {
+      return res.status(401).send({
+        success: false,
+        message: "Authorization token invalid or expired.",
+        user: {
+          id: null,
+          username: null,
+          jwt: null,
+        }
       })
     }
-  }
-  else {
-    res.status(401).send({
-      message: 'Please supply some valid credentials'
+
+    req.user = user
+    next()
+
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error",
     })
   }
 }

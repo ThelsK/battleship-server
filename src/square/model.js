@@ -1,20 +1,21 @@
-const Sequelize = require("sequelize");
-const { database } = require("../database");
+const Sequelize = require("sequelize")
+
+const { database } = require("../database")
 
 const Square = database.define("square", {
   status: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: "fog"
+    defaultValue: "fog",
   },
   hori_pos: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   vert_pos: {
     type: Sequelize.INTEGER,
-    allowNull: false
-  }
-});
+    allowNull: false,
+  },
+})
 
-module.exports = Square;
+module.exports = Square
