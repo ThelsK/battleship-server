@@ -21,7 +21,6 @@ const auth = async (req, res, next) => {
         success: false,
         message: "Authorization token invalid or expired.",
         user: {
-          id: null,
           username: null,
           jwt: null,
         }

@@ -33,7 +33,6 @@ const exampleData = () => {
         defaults: {
           userId: 1,
           left_pos: 4,
-          direction: "vert",
           length: 4
         }
       })

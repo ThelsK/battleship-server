@@ -5,7 +5,7 @@ const databaseUrl = process.env.DATABASE_URL ||
 const database = new Sequelize(databaseUrl)
 
 const databaseSync = () =>
-  database.sync({ force: true })
+  database.sync({ force: false })
     .then(() => {
       console.log("Database initialized successfully")
     })

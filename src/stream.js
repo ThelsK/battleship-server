@@ -24,12 +24,30 @@ const streamUpdate = async () => {
 
 const streamData = async () => {
   data = await Room.findAll({
+    attributes: ["id", "roomname", "status", "round",
+      "hori_size", "vert_size", "max_players"],
     include: [
-      AvailableShip,
-      Notification,
+      {
+        model: AvailableShip,
+        attributes: ["length", "width"],
+      },
+      {
+        model: Notification,
+        attributes: ["content"],
+      },
       {
         model: User,
-        include: [Ship, Square],
+        attributes: ["username", "must_act"],
+        include: [
+          {
+            model: Ship,
+            attributes: ["length", "width", "top_pos", "left_pos"],
+          },
+          {
+            model: Square,
+            attributes: ["status", "hori_pos", "vert_pos"],
+          },
+        ],
       },
     ],
     order: [

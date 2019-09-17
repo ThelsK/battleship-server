@@ -54,7 +54,7 @@ userRouter.post("/register", async (req, res) => {
         username: {
           [Sequelize.Op.iLike]: req.body.username.trim()
         }
-      }
+      },
     })
     if (checkUser) {
       return res.status(400).send({
@@ -71,7 +71,6 @@ userRouter.post("/register", async (req, res) => {
       success: true,
       message: `Registered user ${user.username}.`,
       user: {
-        id: user.id,
         username: user.username,
         jwt: toJWT({ userId: user.id }),
       }
@@ -108,7 +107,7 @@ userRouter.post("/login", async (req, res) => {
         username: {
           [Sequelize.Op.iLike]: req.body.username.trim()
         }
-      }
+      },
     })
     if (!user) {
       return res.status(400).send({
@@ -131,7 +130,6 @@ userRouter.post("/login", async (req, res) => {
       success: true,
       message: `Logged in as user ${user.username}.`,
       user: {
-        id: user.id,
         username: user.username,
         jwt: toJWT({ userId: user.id }),
       }
