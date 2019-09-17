@@ -5,17 +5,31 @@ const { streamUpdate } = require("../stream");
 
 const roomRouter = new Router();
 
-roomRouter.post("/createroom", (req, res, next) => {
-  Room.create({ roomname: req.body.roomname })
-    .then(room => {
-      User.findByPk(req.user.id).then(user => {
-        user.update({ roomId: room.id }).then(user => {
-          streamUpdate();
-          res.send(user);
-        });
+roomRouter.post("/createroom", async (req, res, next) => {
+  try {
+    user = await User.findByPk(req.user.id);
+    if (user.roomId) {
+      return res.status(400).send({
+        success: false,
+        message: "You are already in a room."
       });
-    })
-    .catch(next);
+    }
+
+    room = await Room.create({ roomname: req.body.roomname });
+    await user.update({ roomId: room.id });
+
+    streamUpdate();
+    return res.send({
+      success: true,
+      message: "Room created and joined."
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error"
+    });
+  }
 });
 
 // roomRouter.post("/joinroom", (req, res, next) => {
