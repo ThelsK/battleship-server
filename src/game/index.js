@@ -43,7 +43,7 @@ gameRouter.post("/startgame", async (req, res) => {
       })
     }
 
-    if (user.id !== room.users[0].id) {
+    if (req.user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
         message: `Only user ${users[0].username} may start the game.`,
@@ -51,8 +51,8 @@ gameRouter.post("/startgame", async (req, res) => {
     }
 
     await room.update({ status: "placing" })
-    for (user in room.users) {
-      await user.update({ must_act: true })
+    for (roomUser in room.users) {
+      await roomUser.update({ must_act: true })
     }
     await Notification.create({
       content: `${req.user.username} has started the game.`,
