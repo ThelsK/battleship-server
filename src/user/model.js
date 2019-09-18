@@ -23,6 +23,11 @@ const User = database.define("user", {
     allowNull: false,
     defaultValue: 0,
   },
+  eliminated: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   must_act: {
     type: Sequelize.BOOLEAN,
     allowNull: false,

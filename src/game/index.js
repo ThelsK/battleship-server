@@ -20,9 +20,14 @@ gameRouter.post("/startgame", async (req, res) => {
       })
     }
 
-    room = await Room.findByPk(req.user.roomId)
+    const room = await Room.findByPk(req.body.roomId, {
+      include: [User],
+      order: [[User, "join_date", "ASC"]],
+    })
     if (!room) {
       await req.user.update({ roomId: null })
+      Ship.destroy({ where: { userId: req.user.id } })
+      Square.destroy({ where: { userId: req.user.id } })
       streamUpdate()
 
       return res.status(400).send({
@@ -31,29 +36,32 @@ gameRouter.post("/startgame", async (req, res) => {
       })
     }
 
-    const users = await User.findAll({
-      where: { roomId: room.id },
-      order: [["join_date", "ASC"]]
-    })
-    if (user.id !== users[0].id) {
+    // if (room.users.length < 2) {
+    //   return res.status(400).send({
+    //     success: false,
+    //     message: "At least 2 players are required to play.",
+    //   })
+    // }
+
+    if (user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
         message: `Only user ${users[0].username} may start the game.`,
       })
     }
 
+    await room.update({ status: "placing" })
+    for (user in room.users) {
+      await user.update({ must_act: true })
+    }
     await Notification.create({
       content: `${req.user.username} has started the game.`,
       roomId: room.id,
     })
-    await room.update({ status: "placing" })
-    for (user in users) {
-      await user.update({ must_act: true })
-    }
     streamUpdate()
     return res.send({
       success: true,
-      message: `Started game in ${room.roomname}.`,
+      message: `Started game in room ${room.roomname}.`,
     })
 
   } catch (error) {

@@ -21,6 +21,11 @@ const Ship = database.define("ship", {
     allowNull: false,
     defaultValue: 1,
   },
+  sunk: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 })
 
 module.exports = Ship
