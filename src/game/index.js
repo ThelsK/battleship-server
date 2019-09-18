@@ -52,10 +52,9 @@ gameRouter.post("/startgame", async (req, res) => {
 
     console.log("RoomUsers:", room.users)
     await room.update({ status: "placing" })
-    for (roomUser in room.users) {
-      console.log("RoomUser:", roomUser)
-      await roomUser.update({ must_act: true })
-    }
+    await room.users.forEach(roomUser =>
+      roomUser.update({ must_act: true })
+    )
     await Notification.create({
       content: `${req.user.username} has started the game.`,
       roomId: room.id,
@@ -109,7 +108,7 @@ gameRouter.post("/placeships", async (req, res) => {
     }
 
     const placedShips = []
-    for (ship in req.body.ships) {
+    req.body.ships.forEach(ship => {
       if (!ship.length || !ship.width) {
         return res.status(400).send({
           success: false,
@@ -163,7 +162,7 @@ gameRouter.post("/placeships", async (req, res) => {
         })
       }
 
-      for (placedShip in placedShips) {
+      placedShips.forEach(placedShip => {
         if (ship.top_pos + ship.length >= placedShip.top_pos &&
           placedShip.top_pos + placedShip.length >= ship.top_pos &&
           ship.left_pos + ship.width >= placedShip.left_pos &&
@@ -173,11 +172,11 @@ gameRouter.post("/placeships", async (req, res) => {
             message: "Ships may not overlap or be adjacent to each other."
           })
         }
-      }
+      })
 
       // Add to placed ships, so later ships cannot overlap.
       placedShips.push(ship)
-    }
+    })
 
     if (room.availableShips.length) {
       return res.status(400).send({
@@ -206,11 +205,11 @@ gameRouter.post("/placeships", async (req, res) => {
 
     // Check to see if all users have placed their ships.
     const activeUsers = []
-    for (roomUser in room.users) {
-      if (roomUser.id !== user.id && roomUser.must_act) {
-        activeUsers.push(roomUser)
+    room.users.forEach(user => {
+      if (user.id !== req.user.id && user.must_act) {
+        activeUsers.push(user)
       }
-    }
+    })
 
     // If all users have placed their ships, start the game.
     if (!activeUsers.length) {
