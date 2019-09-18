@@ -119,30 +119,30 @@ gameRouter.post("/placeships", async (req, res) => {
         })
       }
 
-      let availableShipsIndex = -1
-      for (let i = 0; i < room.availableShips.length; i++) {
-        if ((ship.length === room.availableShips[i].length &&
-          ship.width === room.availableShips[i].width) ||
-          (ship.length === room.availableShips[i].width &&
-            ship.width === room.availableShips[i].length)) {
-          availableShipsIndex = i
+      let available_shipsIndex = -1
+      for (let i = 0; i < room.available_ships.length; i++) {
+        if ((ship.length === room.available_ships[i].length &&
+          ship.width === room.available_ships[i].width) ||
+          (ship.length === room.available_ships[i].width &&
+            ship.width === room.available_ships[i].length)) {
+          available_shipsIndex = i
         }
       }
-      if (availableShipsIndex === -1 && ship.length <= ship.width) {
+      if (available_shipsIndex === -1 && ship.length <= ship.width) {
         return res.status(400).send({
           success: false,
           message: `Too many ships with length ${ship.length} \
             and width ${ship.width}.`
         })
       }
-      if (availableShipsIndex === -1) {
+      if (available_shipsIndex === -1) {
         return res.status(400).send({
           success: false,
           message: `Too many ships with length ${ship.width} \
             and width ${ship.length}.`
         })
       }
-      room.availableShips.splice(availableShipsIndex, 1)
+      room.available_ships.splice(available_shipsIndex, 1)
 
       if (!ship.top_pos || !ship.left_pos) {
         return res.status(400).send({
@@ -181,12 +181,12 @@ gameRouter.post("/placeships", async (req, res) => {
       placedShips.push(ship)
     })
 
-    if (room.availableShips.length) {
+    if (room.available_ships.length) {
       return res.status(400).send({
         success: false,
         message: `Not enough ships with length \
-          ${room.availableShips[0].length} and width \
-          ${room.availableShips[0].width}.`.trim()
+          ${room.available_ships[0].length} and width \
+          ${room.available_ships[0].width}.`.trim()
       })
     }
 
