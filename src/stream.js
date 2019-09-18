@@ -37,11 +37,11 @@ const streamData = async () => {
       },
       {
         model: User,
-        attributes: ["username", "must_act"],
+        attributes: ["username", "eliminated", "must_act"],
         include: [
           {
             model: Ship,
-            attributes: ["length", "width", "top_pos", "left_pos"],
+            attributes: ["length", "width", "top_pos", "left_pos", "sunk"],
           },
           {
             model: Square,

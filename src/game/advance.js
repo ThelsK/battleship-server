@@ -38,7 +38,7 @@ const advance = async roomId => {
     // Advance to the first round.
     await room.update({ status: "playing", round: 1 })
     room.users.forEach(async user => {
-      await User.update({ must_act: true })
+      await user.update({ must_act: true })
     })
     await Notification.create({
       content: "===== Round 1 =====",
@@ -50,13 +50,17 @@ const advance = async roomId => {
     return
   }
 
-  // Eliminate players that have acted and have all ships sunk.
+  // Eliminate players that have acted and have no unsunk ships.
   room.users.forEach(async user => {
     if (!user.eliminated && !user.must_act &&
       !user.ships.find(ship => !ship.sunk)) {
       await user.update({
         eliminated: true,
-        games_played: user.games_played + 1
+        games_played: user.games_played + 1,
+      })
+      await Notification.create({
+        content: `${user.username} has been eliminated!`,
+        roomId: room.id,
       })
     }
   })
@@ -73,7 +77,7 @@ const advance = async roomId => {
   if (survivingUsers.length === 1) {
     await room.update({ status: "ended" })
     await survivingUsers[0].update({
-
+      games_played: user.games_played + 1,
       games_won: survivingUsers[0].games_won + 1,
     })
     await Notification.create({
