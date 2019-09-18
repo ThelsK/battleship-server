@@ -85,7 +85,7 @@ gameRouter.post("/placeships", async (req, res) => {
     }
 
     const room = await Room.findByPk(req.user.roomId, {
-      include: [User],
+      include: [AvailableShip, User],
       order: [[User, "join_date", "ASC"]],
     })
     if (!room) {
