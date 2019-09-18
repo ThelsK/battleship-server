@@ -52,6 +52,7 @@ gameRouter.post("/startgame", async (req, res) => {
 
     await room.update({ status: "placing" })
     for (roomUser in room.users) {
+      console.log("RoomUser:", roomUser)
       await roomUser.update({ must_act: true })
     }
     await Notification.create({
