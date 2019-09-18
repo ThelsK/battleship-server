@@ -7,6 +7,7 @@ const User = require("../user/model")
 const Ship = require("../ship/model")
 const Square = require("../square/model")
 const { streamUpdate } = require("../stream")
+const advance = require("../game/advance")
 
 const roomRouter = new Router()
 
@@ -132,97 +133,17 @@ roomRouter.post("/leaveroom", async (req, res) => {
       })
     }
 
+    // If the user is not yet eliminated, add a loss.
+    if (room.status === "playing" && !req.user.eliminated) {
+      await req.user.update({ games_played: req.user.games_played + 1 })
+    }
+
     await Notification.create({
       content: `${req.user.username} has left the room.`,
       roomId: room.id,
     })
 
-    // If User was the only User, destroy the room.
-    if (room.users.length === 1) {
-      await Room.destroy({ where: { id: room.id } })
-      Notification.destroy({ where: { roomId: room.id } })
-      AvailableShip.destroy({ where: { roomId: room.id } })
-
-    } else if (room.status === "placing") {
-      // If only one additional User remains, end the game.
-      if (room.users.length === 2) {
-        await room.update({ status: "ended" })
-        await Notification.create({
-          content: "Not enough players remain. Ending game.",
-          roomId: room.id,
-        })
-
-      } else {
-        // Check to see if all users have placed their ships.
-        const activeUsers = []
-        for (roomUser in room.users) {
-          if (roomUser.id !== user.id && roomUser.must_act) {
-            activeUsers.push(roomUser)
-          }
-        }
-
-        // If all users have placed their ships, start the game.
-        if (!activeUsers.length) {
-          await room.update({ status: "playing", round: 1 })
-          for (roomUser in room.users) {
-            if (roomUser.id !== user.id) {
-              await roomUser.update({ must_act: true })
-            }
-          }
-          await Notification.create({
-            content: "===== Round 1 =====",
-            roomId: room.id,
-          })
-        }
-      }
-
-    } else if (room.status === "playing") {
-
-      // If the user is not yet eliminated, add a loss.
-      if (!req.user.eliminated) {
-        await req.user.update({ games_played: req.user.games_played + 1 })
-      }
-
-      // Check to see how many players still remain in the game.
-      const remainingUsers = []
-      const activeUsers = []
-
-      for (roomUser in room.users) {
-        if (roomUser.id !== user.id && !roomUser.eliminated) {
-          remainingUsers.push(roomUser)
-        }
-        if (roomUser.id !== user.id && roomUser.must_act) {
-          activeUsers.push(roomUser)
-        }
-      }
-
-      // If only a single user is not eliminated, they win.
-      if (remainingUsers.length === 1) {
-        await remainingUsers[0].update({
-          games_played: remainingUsers[0].games_played + 1,
-          games_won: remainingUsers[0].games_won + 1,
-        })
-        await room.update({ status: "ended" })
-        await Notification.create({
-          content: `${remainingUsers[0].username} is victorious!`,
-          roomId: room.id,
-        })
-
-        // If no users remain to act, advance to the next round.
-      } else if (!activeUsers.length) {
-        await room.update({ round: room.round + 1 })
-        for (roomUser in room.users) {
-          if (roomUser.id !== user.id && !roomUser.eliminated) {
-            await roomUser.update({ must_act: true })
-          }
-        }
-        await Notification.create({
-          content: `===== Round ${room.round + 1} =====`,
-          roomId: room.id,
-        })
-      }
-    }
-
+    await advance(room.id)
     streamUpdate()
     return res.send({
       success: true,

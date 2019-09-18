@@ -7,6 +7,7 @@ const User = require("../user/model")
 const Ship = require("../ship/model")
 const Square = require("../square/model")
 const { streamUpdate } = require("../stream")
+const advance = require("../game/advance")
 
 const gameRouter = new Router()
 
@@ -50,10 +51,9 @@ gameRouter.post("/startgame", async (req, res) => {
       })
     }
 
-    console.log("RoomUsers:", room.users)
     await room.update({ status: "placing" })
-    await room.users.forEach(roomUser =>
-      roomUser.update({ must_act: true })
+    await room.users.forEach(async user =>
+      await user.update({ must_act: true })
     )
     await Notification.create({
       content: `${req.user.username} has started the game.`,
@@ -203,26 +203,7 @@ gameRouter.post("/placeships", async (req, res) => {
       roomId: room.id,
     })
 
-    // Check to see if all users have placed their ships.
-    const activeUsers = []
-    room.users.forEach(user => {
-      if (user.id !== req.user.id && user.must_act) {
-        activeUsers.push(user)
-      }
-    })
-
-    // If all users have placed their ships, start the game.
-    if (!activeUsers.length) {
-      await room.update({ status: "playing", round: 1 })
-      for (roomUser in room.users) {
-        await roomUser.update({ must_act: true })
-      }
-      await Notification.create({
-        content: "===== Round 1 =====",
-        roomId: room.id,
-      })
-    }
-
+    await advance(room.id)
     streamUpdate()
     return res.send({
       success: true,
