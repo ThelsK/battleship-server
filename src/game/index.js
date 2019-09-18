@@ -76,6 +76,7 @@ gameRouter.post("/startgame", async (req, res) => {
 
 gameRouter.post("/placeships", async (req, res) => {
   try {
+    console.log("Receiving data:", req.body.ships)
 
     if (!req.user.roomId) {
       return res.status(400).send({
@@ -99,6 +100,8 @@ gameRouter.post("/placeships", async (req, res) => {
         message: "Room does not exist.",
       })
     }
+
+    console.log("Room:", room)
 
     if (!req.body.ships) {
       return res.status(400).send({
