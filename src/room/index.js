@@ -73,6 +73,13 @@ roomRouter.post("/joinroom", async (req, res) => {
       })
     }
 
+    if (room.status !== "open") {
+      return res.status(400).send({
+        success: false,
+        message: `Game in room ${room.roomname} has already started.`,
+      })
+    }
+
     if (room.users.length >= room.max_players) {
       return res.status(400).send({
         success: false,

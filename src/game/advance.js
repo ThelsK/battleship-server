@@ -87,7 +87,7 @@ const advance = async roomId => {
     })
   }
 
-  if (room.users.find(user => !user.eliminated && user.must_act)) {
+  if (room.users.find(user => user.must_act)) {
     return
   }
 
