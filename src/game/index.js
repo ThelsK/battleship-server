@@ -245,7 +245,7 @@ gameRouter.post("/placeships", async (req, res) => {
       await Ship.create({
         top_pos: ship.top_pos,
         left_pos: ship.left_pos,
-        height: ship.height,
+        length: ship.length,
         width: ship.width,
         sunk: false,
         userId: req.user.id,
