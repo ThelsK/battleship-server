@@ -37,21 +37,25 @@ const advance = async roomId => {
 
     // Advance to the first round.
     await room.update({ status: "playing", round: 1 })
-    room.users.forEach(async user => {
+    await room.users.forEach(async user => {
       await user.update({ must_act: true })
     })
     await Notification.create({
       content: "===== Round 1 =====",
       roomId: room.id,
     })
+    return
   }
 
   if (room.status !== "playing") {
     return
   }
 
-  // Eliminate players that have acted and have no unsunk ships.
-  room.users.forEach(async user => {
+  const survivingUsers = []
+  for (usersI = 0; usersI < room.users.length; usersI++) {
+    user = room.users[usersI]
+
+    // Eliminate players that have acted and have no unsunk ships.
     if (!user.eliminated && !user.must_act &&
       !user.ships.find(ship => !ship.sunk)) {
       await user.update({
@@ -62,17 +66,19 @@ const advance = async roomId => {
         content: `${user.username} has been eliminated!`,
         roomId: room.id,
       })
+    } else if (!user.eliminated) {
+      survivingUsers.push(user)
     }
-  })
+  }
 
   // End the game if none or only one survivor remains.
-  const survivingUsers = room.users.filter(user => !user.eliminated)
   if (!survivingUsers.length) {
     await room.update({ status: "ended" })
     await Notification.create({
-      content: "All players are eliminated.",
+      content: "All players have been eliminated!",
       roomId: room.id,
     })
+    return
   }
   if (survivingUsers.length === 1) {
     await room.update({ status: "ended" })
@@ -84,21 +90,21 @@ const advance = async roomId => {
       content: `${survivingUsers[0].username} is victorious!`,
       roomId: room.id,
     })
+    return
   }
 
   if (room.users.find(user => user.must_act)) {
     return
   }
 
-  // Advance to the next round.
-  await room.update({ round: room.round + 1 })
-  room.users.forEach(async user => {
+  await room.users.forEach(async user => {
     if (!user.eliminated) {
-      await User.update({ must_act: true })
+      await user.update({ must_act: true })
     }
   })
+  await room.update({ round: room.round + 1 })
   await Notification.create({
-    content: `===== Round ${room.round + 1} =====`,
+    content: `===== Round ${room.round} =====`,
     roomId: room.id,
   })
 }

@@ -329,15 +329,16 @@ gameRouter.post("/placeattack", async (req, res) => {
       })
     }
 
-    if (!req.body.hori_pos || !req.body.vert_pos) {
+    if (req.body.hori_pos === null || req.body.hori_pos === undefined ||
+      req.body.vert_pos === null || req.body.vert_pos === undefined) {
       return res.status(400).send({
         success: false,
         message: "Please provide a vert_pos and a hori_pos."
       })
     }
 
-    if (!req.body.hori_pos.isInteger() ||
-      !req.body.vert_pos.isInteger()) {
+    if (!Number.isInteger(req.body.hori_pos) ||
+      !Number.isInteger(req.body.vert_pos)) {
       return res.status(400).send({
         success: false,
         message: "Both vert_pos and hori_pos must be round numbers."
@@ -380,86 +381,100 @@ gameRouter.post("/placeattack", async (req, res) => {
       roomId: room.id,
     })
 
-    targetUsers.forEach(async user => {
+    for (let targetI = 0; targetI < targetUsers.length; targetI++) {
+      const user = targetUsers[targetI]
+
       const targetShip = user.ships.find(ship =>
-        ship.vert_pos <= req.body.vert_pos &&
-        ship.vert_pos + ship.length > req.body.vert_pos &&
-        ship.hori_pos <= req.body.hori_pos &&
-        ship.hori_pos + ship.width > req.body.hori_pos)
+        ship.top_pos <= req.body.vert_pos &&
+        ship.top_pos + ship.length > req.body.vert_pos &&
+        ship.left_pos <= req.body.hori_pos &&
+        ship.left_pos + ship.width > req.body.hori_pos)
 
       if (!targetShip) {
         await Square.create({
           vert_pos: req.body.vert_pos,
           hori_pos: req.body.hori_pos,
           status: "miss",
-          userId: targetUsers.id,
+          userId: user.id,
         })
         await Notification.create({
           content: `... and misses the ship of ${user.username}.`,
           roomId: room.id,
         })
-        return
-      }
+      } else {
 
-      await Square.create({
-        vert_pos: req.body.vert_pos,
-        hori_pos: req.body.hori_pos,
-        status: "hit",
-        userId: targetUsers.id,
-      })
+        let sunk = true
+        for (let x = 0; x < targetShip.length; x++) {
+          for (let y = 0; y < targetShip.width; y++) {
+            if ((req.body.vert_pos !== targetShip.top_pos + x ||
+              req.body.hori_pos !== targetShip.left_pos + y) &&
+              !user.squares.find(square =>
+                square.vert_pos === targetShip.top_pos + x &&
+                square.hori_pos === targetShip.left_pos + y)) {
+              sunk = false
+            }
+          }
+        }
 
-      let sunk = true
-      for (let x = 0; x < targetShip.length; x++) {
-        for (let y = 0; y < targetShip.width; y++) {
-          if (!user.squares.find(square =>
-            square.vert_pos === targetShip.top_pos + x &&
-            square.hori_pos === targetShip.left_pos + y)) {
-            sunk = false
+        if (!sunk) {
+          await Square.create({
+            vert_pos: req.body.vert_pos,
+            hori_pos: req.body.hori_pos,
+            status: "hit",
+            userId: user.id,
+          })
+          await Notification.create({
+            content: `... and hits a ship of ${user.username}.`,
+            roomId: room.id,
+          })
+        } else {
+          await Square.create({
+            vert_pos: req.body.vert_pos,
+            hori_pos: req.body.hori_pos,
+            status: "sunk",
+            userId: user.id,
+          })
+          await targetShip.update({ sunk: true })
+          await Notification.create({
+            content: `... and sinks a ship of ${user.username}.`,
+            roomId: room.id,
+          })
+
+          for (let x = 0; x < targetShip.length; x++) {
+            for (let y = 0; y < targetShip.width; y++) {
+              square = user.squares.find(square =>
+                square.vert_pos === targetShip.top_pos + x &&
+                square.hori_pos === targetShip.left_pos + y)
+              if (square) {
+                await square.update({ status: "sunk" })
+              }
+            }
+          }
+
+          for (let x = -1; x <= targetShip.length; x++) {
+            for (let y = -1; y <= targetShip.width; y++) {
+              if (targetShip.top_pos + x >= 0 &&
+                targetShip.top_pos + x < room.hori_size &&
+                targetShip.left_pos + y >= 0 &&
+                targetShip.left_pos + y < room.vert_size &&
+                (req.body.vert_pos !== targetShip.top_pos + x ||
+                  req.body.hori_pos !== targetShip.left_pos + y) &&
+                !user.squares.find(square =>
+                  square.vert_pos === targetShip.top_pos + x &&
+                  square.hori_pos === targetShip.left_pos + y)) {
+
+                await Square.create({
+                  vert_pos: targetShip.top_pos + x,
+                  hori_pos: targetShip.left_pos + y,
+                  status: "miss",
+                  userId: user.id,
+                })
+              }
+            }
           }
         }
       }
-
-      if (!sunk) {
-        await Notification.create({
-          content: `... and hits a ship of ${user.username}.`,
-          roomId: room.id,
-        })
-        return
-      }
-      await Notification.create({
-        content: `... and sinks a ship of ${user.username}.`,
-        roomId: room.id,
-      })
-
-      for (let x = 0; x < targetShip.length; x++) {
-        for (let y = 0; y < targetShip.width; y++) {
-          await user.squares.find(square =>
-            square.vert_pos === targetShip.top_pos + x &&
-            square.hori_pos === targetShip.left_pos + y)
-            .update({ status: "sunk" })
-        }
-      }
-
-      for (let x = -1; x <= targetShip.length; x++) {
-        for (let y = -1; y <= targetShip.width; y++) {
-          if (targetShip.top_pos + x >= 0 &&
-            targetShip.top_pos + x < room.hori_size &&
-            targetShip.left_pos + y >= 0 &&
-            targetShip.left_pos + y < room.vert_size &&
-            !user.squares.find(square =>
-              square.vert_pos === targetShip.top_pos + x &&
-              square.hori_pos === targetShip.left_pos + y)) {
-
-            await Square.create({
-              vert_pos: req.body.vert_pos,
-              hori_pos: req.body.hori_pos,
-              status: "miss",
-              userId: targetUsers.id,
-            })
-          }
-        }
-      }
-    })
+    }
 
     await advance(room.id)
     streamUpdate()
