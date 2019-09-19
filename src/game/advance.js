@@ -77,7 +77,7 @@ const advance = async roomId => {
   if (survivingUsers.length === 1) {
     await room.update({ status: "ended" })
     await survivingUsers[0].update({
-      games_played: user.games_played + 1,
+      games_played: survivingUsers[0].games_played + 1,
       games_won: survivingUsers[0].games_won + 1,
     })
     await Notification.create({
