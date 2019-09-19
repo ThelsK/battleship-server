@@ -133,10 +133,10 @@ gameRouter.post("/placeships", async (req, res) => {
       })
     }
 
-    if (!req.body.ships) {
+    if (!req.body.ships || !Array.isArray(req.body.ships)) {
       return res.status(400).send({
         success: false,
-        message: "Please provide data for ships."
+        message: "Please provide data for ships as an array."
       })
     }
 
