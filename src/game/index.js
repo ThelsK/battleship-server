@@ -143,6 +143,7 @@ gameRouter.post("/placeships", async (req, res) => {
     const placedShips = []
     for (let shipI = 0; shipI < req.body.ships.length; shipI++) {
       const ship = req.body.ships[shipI]
+      console.log("Ship:", ship)
 
       if (!ship.length || !ship.width) {
         return res.status(400).send({
@@ -151,12 +152,13 @@ gameRouter.post("/placeships", async (req, res) => {
         })
       }
 
-      if (!ship.length.isInteger() || !ship.width.isInteger()) {
+      if (!Number.isInteger(ship.length) || !Number.isInteger(ship.width)) {
         return res.status(400).send({
           success: false,
           message: "Both length and width must be round numbers."
         })
       }
+      console.log("===1===")
 
       let available_shipsIndex = -1
       for (let i = 0; i < room.available_ships.length; i++) {
@@ -182,21 +184,27 @@ gameRouter.post("/placeships", async (req, res) => {
         })
       }
       room.available_ships.splice(available_shipsIndex, 1)
+      console.log("===2===")
 
-      if (!ship.top_pos || !ship.left_pos) {
+      if (ship.top_pos === undefined || ship.top_pos === null ||
+        ship.left_pos === undefined || ship.left_pos === null) {
+        console.log("===2.5===")
         return res.status(400).send({
           success: false,
-          message: "Please provide a top_pos \
-            and a left_pos for each ship."
+          message: `Please provide a top_pos \
+            and a left_pos for each ship.`
         })
       }
+      console.log("===3===")
 
-      if (!ship.top_pos.isInteger() || !ship.left_pos.isInteger()) {
+      if (!Number.isInteger(ship.top_pos) ||
+        !Number.isInteger(ship.left_pos)) {
         return res.status(400).send({
           success: false,
           message: "Both top_pos and left_pos must be round numbers."
         })
       }
+      console.log("===4===")
 
       if (ship.top_pos < 0 ||
         ship.top_pos + ship.length > room.vert_size) {
@@ -205,6 +213,7 @@ gameRouter.post("/placeships", async (req, res) => {
           message: "Ships may not run off the top or bottom of the map."
         })
       }
+      console.log("===5===")
 
       if (ship.left_pos < 0 ||
         ship.left_pos + ship.width > room.hori_size) {
@@ -213,18 +222,19 @@ gameRouter.post("/placeships", async (req, res) => {
           message: "Ships may not run off either side of the map."
         })
       }
+      console.log("===6===")
 
-      placedShips.forEach(placedShip => {
-        if (ship.top_pos + ship.length >= placedShip.top_pos &&
-          placedShip.top_pos + placedShip.length >= ship.top_pos &&
-          ship.left_pos + ship.width >= placedShip.left_pos &&
-          placedShip.left_pos + placedShip.width >= ship.top_pos) {
-          return res.status(400).send({
-            success: false,
-            message: "Ships may not overlap or be adjacent to each other."
-          })
-        }
-      })
+      if (placedShips.find(compare =>
+        compare.top_pos <= ship.top_pos + ship.length &&
+        compare.top_pos + compare.length >= ship.top_pos &&
+        compare.left_pos <= ship.left_pos + ship.width &&
+        compare.left_pos + compare.width >= ship.left_pos)) {
+        return res.status(400).send({
+          success: false,
+          message: "Ships may not overlap or be adjacent to each other."
+        })
+      }
+      console.log("===7===")
 
       // Add to placed ships, so later ships cannot overlap.
       placedShips.push(ship)

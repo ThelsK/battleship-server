@@ -5,7 +5,6 @@ const User = require("../user/model")
 const Ship = require("../ship/model")
 
 const advance = async roomId => {
-  console.log("Room ID:", roomId)
 
   const room = await Room.findByPk(roomId, {
     include: [{ model: User, include: [Ship] }],
