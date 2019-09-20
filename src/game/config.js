@@ -474,7 +474,7 @@ configRouter.post("/removeship", async (req, res) => {
       })
     }
 
-    await AvailableShip.destroy()
+    await ship.destroy()
     streamUpdate()
     return res.send({
       success: true,
