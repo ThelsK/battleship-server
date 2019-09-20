@@ -79,20 +79,12 @@ configRouter.post("/maxplayers", async (req, res) => {
       })
     }
 
-    if (req.body.max_players === room.max_players) {
-      return res.status(400).send({
-        success: false,
-        message: `Maximum players for room ${room.roomname} \
-          is already set to ${room.max_players}.`
-      })
-    }
-
     await room.update({ max_players: req.body.max_players })
     streamUpdate()
     return res.send({
       success: true,
       message: `Maximum players for room ${room.roomname} \
-        is now set to ${req.body.max_players}.`
+        set to ${req.body.max_players}.`
     })
 
   } catch (error) {
@@ -172,20 +164,12 @@ configRouter.post("/boardheight", async (req, res) => {
       })
     }
 
-    if (req.body.vert_size === room.vert_size) {
-      return res.status(400).send({
-        success: false,
-        message: `Vertical size for room ${room.roomname} \
-          is already set to ${room.vert_size}.`
-      })
-    }
-
     await room.update({ vert_size: req.body.vert_size })
     streamUpdate()
     return res.send({
       success: true,
       message: `Vertical size for room ${room.roomname} \
-        is now set to ${req.body.vert_size}.`
+        set to ${req.body.vert_size}.`
     })
 
   } catch (error) {
@@ -265,20 +249,12 @@ configRouter.post("/boardwidth", async (req, res) => {
       })
     }
 
-    if (req.body.hori_size === room.hori_size) {
-      return res.status(400).send({
-        success: false,
-        message: `Horizontal size for room ${room.roomname} \
-          is already set to ${room.hori_size}.`
-      })
-    }
-
     await room.update({ hori_size: req.body.hori_size })
     streamUpdate()
     return res.send({
       success: true,
       message: `Horizontal size for room ${room.roomname} \
-        is now set to ${req.body.hori_size}.`
+        set to ${req.body.hori_size}.`
     })
 
   } catch (error) {
