@@ -47,7 +47,7 @@ configRouter.post("/maxplayers", async (req, res) => {
     if (req.user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
-        message: `Only user ${users[0].username} may change game settings.`,
+        message: `Only user ${room.users[0].username} may change game settings.`,
       })
     }
 
@@ -140,7 +140,7 @@ configRouter.post("/boardheight", async (req, res) => {
     if (req.user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
-        message: `Only user ${users[0].username} may change game settings.`,
+        message: `Only user ${room.users[0].username} may change game settings.`,
       })
     }
 
@@ -233,7 +233,7 @@ configRouter.post("/boardwidth", async (req, res) => {
     if (req.user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
-        message: `Only user ${users[0].username} may change game settings.`,
+        message: `Only user ${room.users[0].username} may change game settings.`,
       })
     }
 
@@ -292,6 +292,7 @@ configRouter.post("/boardwidth", async (req, res) => {
 
 configRouter.post("/addship", async (req, res) => {
   try {
+    console.log("Addship:", req.body)
 
     if (!req.user.roomId) {
       return res.status(400).send({
@@ -301,7 +302,7 @@ configRouter.post("/addship", async (req, res) => {
     }
 
     const room = await Room.findByPk(req.user.roomId, {
-      include: [AvailableShips, User],
+      include: [AvailableShip, User],
       order: [[User, "join_date", "ASC"]],
     })
     if (!room) {
@@ -326,7 +327,7 @@ configRouter.post("/addship", async (req, res) => {
     if (req.user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
-        message: `Only user ${users[0].username} may change game settings.`,
+        message: `Only user ${room.users[0].username} may change game settings.`,
       })
     }
 
@@ -397,7 +398,7 @@ configRouter.post("/removeship", async (req, res) => {
     }
 
     const room = await Room.findByPk(req.user.roomId, {
-      include: [AvailableShips, User],
+      include: [AvailableShip, User],
       order: [[User, "join_date", "ASC"]],
     })
     if (!room) {
@@ -422,7 +423,7 @@ configRouter.post("/removeship", async (req, res) => {
     if (req.user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
-        message: `Only user ${users[0].username} may change game settings.`,
+        message: `Only user ${room.users[0].username} may change game settings.`,
       })
     }
 

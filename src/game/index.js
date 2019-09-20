@@ -54,7 +54,7 @@ gameRouter.post("/startgame", async (req, res) => {
     if (req.user.id !== room.users[0].id) {
       return res.status(400).send({
         success: false,
-        message: `Only user ${users[0].username} may start the game.`,
+        message: `Only user ${room.users[0].username} may start the game.`,
       })
     }
 
