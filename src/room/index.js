@@ -28,7 +28,12 @@ roomRouter.post("/createroom", async (req, res) => {
       })
     }
 
-    const room = await Room.create({ roomname: req.body.roomname.trim() })
+    const room = await Room.create({
+      roomname: req.body.roomname.trim(),
+      max_players: 8,
+      vert_size: 8,
+      hori_size: 8,
+    })
     await req.user.update({
       join_date: new Date().toISOString(),
       roomId: room.id,
@@ -40,10 +45,8 @@ roomRouter.post("/createroom", async (req, res) => {
       roomId: room.id,
     })
     await AvailableShip.create({ length: 5, width: 1, roomId: room.id })
-    await AvailableShip.create({ length: 4, width: 1, roomId: room.id })
-    await AvailableShip.create({ length: 3, width: 1, roomId: room.id })
-    await AvailableShip.create({ length: 3, width: 1, roomId: room.id })
-    await AvailableShip.create({ length: 2, width: 1, roomId: room.id })
+    await AvailableShip.create({ length: 4, width: 2, roomId: room.id })
+    await AvailableShip.create({ length: 3, width: 3, roomId: room.id })
     streamUpdate()
     return res.send({
       success: true,
@@ -162,6 +165,58 @@ roomRouter.post("/leaveroom", async (req, res) => {
     return res.send({
       success: true,
       message: `Left room ${room.roomname}.`,
+    })
+
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error",
+    })
+  }
+})
+
+roomRouter.post("/messageroom", async (req, res) => {
+  try {
+
+    if (!req.user.roomId) {
+      return res.status(400).send({
+        success: false,
+        message: "You are not in a room.",
+      })
+    }
+
+    const room = await Room.findByPk(req.user.roomId, {
+      include: [User],
+      order: [[User, "join_date", "ASC"]],
+    })
+    if (!room) {
+      await req.user.update({ roomId: null })
+      Ship.destroy({ where: { userId: req.user.id } })
+      Square.destroy({ where: { userId: req.user.id } })
+      streamUpdate()
+
+      return res.status(400).send({
+        success: false,
+        message: "Room does not exist.",
+      })
+    }
+
+    if (!req.body.message || !req.body.message.trim()) {
+      return res.status(400).send({
+        success: false,
+        message: "Please provide a message to send."
+      })
+    }
+
+    await Notification.create({
+      content: `${req.user.username}: ${req.body.message.trim()}`,
+      roomId: room.id,
+    })
+    streamUpdate()
+    return res.send({
+      success: true,
+      message: `Sent message to room ${room.roomname}.`,
     })
 
   } catch (error) {

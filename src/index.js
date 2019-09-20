@@ -6,6 +6,7 @@ const { streamRouter } = require("./stream")
 const userRouter = require("./user")
 const authMiddleware = require("./auth")
 const roomRouter = require("./room")
+const configRouter = require("./game/config")
 const gameRouter = require("./game")
 const { databaseSync } = require("./database")
 
@@ -16,6 +17,7 @@ app.use(
   userRouter,
   authMiddleware,
   roomRouter,
+  configRouter,
   gameRouter,
 )
 
