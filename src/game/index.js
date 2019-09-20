@@ -370,7 +370,7 @@ gameRouter.post("/placeattack", async (req, res) => {
     if (!targetUsers.length) {
       return res.status(400).send({
         success: false,
-        message: "Target position is already attacked for all opponents."
+        message: "Target position is already known for all opponents."
       })
     }
 
@@ -398,7 +398,7 @@ gameRouter.post("/placeattack", async (req, res) => {
           userId: user.id,
         })
         await Notification.create({
-          content: `... and misses the ship of ${user.username}.`,
+          content: `... and misses the ships of ${user.username}.`,
           roomId: room.id,
         })
       } else {
@@ -436,7 +436,7 @@ gameRouter.post("/placeattack", async (req, res) => {
           })
           await targetShip.update({ sunk: true })
           await Notification.create({
-            content: `... and sinks a ship of ${user.username}.`,
+            content: `... and destroys a ship of ${user.username}.`,
             roomId: room.id,
           })
 

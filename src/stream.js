@@ -37,7 +37,8 @@ const streamData = async () => {
       },
       {
         model: User,
-        attributes: ["username", "eliminated", "must_act"],
+        attributes: ["username", "games_played", "games_won",
+          "eliminated", "must_act"],
         include: [
           {
             model: Ship,
