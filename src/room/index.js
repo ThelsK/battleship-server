@@ -21,7 +21,14 @@ roomRouter.post("/createroom", async (req, res) => {
       })
     }
 
-    const room = await Room.create({ roomname: req.body.roomname })
+    if (!req.body.roomname || !req.body.roomname.trim()) {
+      return res.status(400).send({
+        success: false,
+        message: "Please provide a name for your room."
+      })
+    }
+
+    const room = await Room.create({ roomname: req.body.roomname.trim() })
     await req.user.update({
       join_date: new Date().toISOString(),
       roomId: room.id,
