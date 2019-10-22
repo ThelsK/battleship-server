@@ -442,6 +442,7 @@ gameRouter.post("/placeattack", async (req, res) => {
 
           for (let x = 0; x < targetShip.length; x++) {
             for (let y = 0; y < targetShip.width; y++) {
+              console.log("Checking Ship Sunk.")
               square = user.squares.find(square =>
                 square.vert_pos === targetShip.top_pos + x &&
                 square.hori_pos === targetShip.left_pos + y)
@@ -453,6 +454,7 @@ gameRouter.post("/placeattack", async (req, res) => {
 
           for (let x = -1; x <= targetShip.length; x++) {
             for (let y = -1; y <= targetShip.width; y++) {
+              console.log("Checking Adjacent Miss.")
               if (targetShip.top_pos + x >= 0 &&
                 targetShip.top_pos + x < room.hori_size &&
                 targetShip.left_pos + y >= 0 &&

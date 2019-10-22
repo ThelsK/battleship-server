@@ -25,3 +25,5 @@ const port = process.env.PORT || 4000
 app.listen(port, () => console.log(`Listening on :${port}`))
 
 databaseSync()
+
+// ssh -R 80:localhost:4000 serveo.net

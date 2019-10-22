@@ -1,0 +1,443 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20190920.161129.31572.0.001.json",
+    "dumpEventTime": "2019-09-20T16:11:29Z",
+    "dumpEventTimeStamp": "1568988689318",
+    "processId": 31572,
+    "cwd": "/home/thels/Documenten/codaisseur/week7/battleship-server",
+    "commandLine": [
+      "/home/thels/.nvm/versions/node/v12.8.1/bin/node",
+      "src/index.js"
+    ],
+    "nodejsVersion": "v12.8.1",
+    "glibcVersionRuntime": "2.29",
+    "glibcVersionCompiler": "2.17",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "linux",
+    "componentVersions": {
+      "node": "12.8.1",
+      "v8": "7.5.288.22-node.16",
+      "uv": "1.30.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.8.1/node-v12.8.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.8.1/node-v12.8.1.tar.gz"
+    },
+    "osName": "Linux",
+    "osRelease": "5.0.0-29-generic",
+    "osVersion": "#31-Ubuntu SMP Thu Sep 12 13:05:32 UTC 2019",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 9064800,
+        "nice": 12300,
+        "sys": 2177600,
+        "idle": 251428600,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 9297100,
+        "nice": 65300,
+        "sys": 2175000,
+        "idle": 239432200,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 9129500,
+        "nice": 20600,
+        "sys": 2173700,
+        "idle": 239447200,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 8944600,
+        "nice": 6500,
+        "sys": 2217100,
+        "idle": 238569200,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 9045700,
+        "nice": 24800,
+        "sys": 2201000,
+        "idle": 239542000,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 9333600,
+        "nice": 7200,
+        "sys": 2211100,
+        "idle": 239153100,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 8956600,
+        "nice": 10600,
+        "sys": 2184600,
+        "idle": 239461000,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+        "speed": 1700,
+        "user": 9140400,
+        "nice": 30100,
+        "sys": 2201300,
+        "idle": 239564900,
+        "irq": 0
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "wlp7s0",
+        "internal": false,
+        "mac": "3c:91:80:44:b7:8b",
+        "address": "172.16.31.23",
+        "netmask": "255.255.252.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "docker0",
+        "internal": false,
+        "mac": "02:42:db:a5:db:93",
+        "address": "172.17.0.1",
+        "netmask": "255.255.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "wlp7s0",
+        "internal": false,
+        "mac": "3c:91:80:44:b7:8b",
+        "address": "fe80::e54d:577f:d86b:f875",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 3
+      },
+      {
+        "name": "docker0",
+        "internal": false,
+        "mac": "02:42:db:a5:db:93",
+        "address": "fe80::42:dbff:fea5:db93",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 4
+      },
+      {
+        "name": "veth53e6c37",
+        "internal": false,
+        "mac": "62:1d:1b:43:57:6a",
+        "address": "fe80::601d:1bff:fe43:576a",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 6
+      }
+    ],
+    "host": "Universe"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x0000000000ad6c95",
+      "symbol": "report::TriggerNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::string const&, v8::Local<v8::String>) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x00000000009b19f3",
+      "symbol": "node::OnFatalError(char const*, char const*) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b0ffde",
+      "symbol": "v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b10359",
+      "symbol": "v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000ced265",
+      "symbol": " [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000cf8aab",
+      "symbol": "v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000cf97c7",
+      "symbol": "v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000cfc2f8",
+      "symbol": "v8::internal::Heap::AllocateRawWithRetryOrFail(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000cc5c07",
+      "symbol": "v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationType) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x0000000000f9c7c8",
+      "symbol": "v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    },
+    {
+      "pc": "0x000000000131eb19",
+      "symbol": " [/home/thels/.nvm/versions/node/v12.8.1/bin/node]"
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2153316352,
+    "totalCommittedMemory": 2151790024,
+    "usedMemory": 2146756112,
+    "availableMemory": 47715056,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 32272,
+        "capacity": 261832,
+        "used": 31960,
+        "available": 229872
+      },
+      "new_space": {
+        "memorySize": 2097152,
+        "committedMemory": 1339344,
+        "capacity": 1047328,
+        "used": 354576,
+        "available": 692752
+      },
+      "old_space": {
+        "memorySize": 2136354816,
+        "committedMemory": 2136025048,
+        "capacity": 2133718856,
+        "used": 2132472696,
+        "available": 1246160
+      },
+      "code_space": {
+        "memorySize": 688128,
+        "committedMemory": 636192,
+        "capacity": 599648,
+        "used": 599648,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 1314816,
+        "committedMemory": 1157872,
+        "capacity": 776000,
+        "used": 776000,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 12550144,
+        "committedMemory": 12550144,
+        "capacity": 12517776,
+        "used": 12517776,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 3456,
+        "used": 3456,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047328,
+        "used": 0,
+        "available": 1047328
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 83.3039,
+    "kernelCpuSeconds": 4.31403,
+    "cpuConsumptionPercent": 128.85,
+    "maxRss": 2445733888,
+    "pageFaults": {
+      "IORequired": 42,
+      "IONotRequired": 1811047
+    },
+    "fsActivity": {
+      "reads": 16888,
+      "writes": 16
+    }
+  },
+  "uvthreadResourceUsage": {
+    "userCpuSeconds": 50.9147,
+    "kernelCpuSeconds": 1.3287,
+    "cpuConsumptionPercent": 76.8286,
+    "fsActivity": {
+      "reads": 16888,
+      "writes": 16
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "GJS_DEBUG_TOPICS": "JS ERROR;JS LOG",
+    "SSH_AUTH_SOCK": "/run/user/1000/keyring/ssh",
+    "SESSION_MANAGER": "local/Universe:@/tmp/.ICE-unix/2013,unix/Universe:/tmp/.ICE-unix/2013",
+    "GNOME_TERMINAL_SCREEN": "/org/gnome/Terminal/screen/c4e5c285_2d7a_4a27_826d_f20371e65dcc",
+    "SSH_AGENT_PID": "2115",
+    "XDG_CURRENT_DESKTOP": "ubuntu:GNOME",
+    "LANG": "nl_NL.UTF-8",
+    "DISPLAY": ":0",
+    "PWD": "/home/thels/Documenten/codaisseur/week7/battleship-server",
+    "QT_IM_MODULE": "xim",
+    "GPG_AGENT_INFO": "/run/user/1000/gnupg/S.gpg-agent:0:1",
+    "USER": "thels",
+    "GJS_DEBUG_OUTPUT": "stderr",
+    "XDG_MENU_PREFIX": "gnome-",
+    "DESKTOP_SESSION": "ubuntu",
+    "HOME": "/home/thels",
+    "QT4_IM_MODULE": "xim",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+    "XDG_VTNR": "2",
+    "XDG_SEAT": "seat0",
+    "GTK_MODULES": "gail:atk-bridge",
+    "XDG_CONFIG_DIRS": "/etc/xdg/xdg-ubuntu:/etc/xdg",
+    "GTK_IM_MODULE": "ibus",
+    "XDG_SESSION_DESKTOP": "ubuntu",
+    "WINDOWPATH": "2",
+    "GNOME_DESKTOP_SESSION_ID": "this-is-deprecated",
+    "CLUTTER_IM_MODULE": "xim",
+    "LOGNAME": "thels",
+    "GNOME_TERMINAL_SERVICE": ":1.88",
+    "VTE_VERSION": "5602",
+    "PATH": "/home/thels/.nvm/versions/node/v12.8.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+    "XDG_RUNTIME_DIR": "/run/user/1000",
+    "XDG_DATA_DIRS": "/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop",
+    "XMODIFIERS": "@im=ibus",
+    "SHELL": "/usr/bin/zsh",
+    "XDG_SESSION_TYPE": "x11",
+    "XDG_SESSION_ID": "2",
+    "QT_ACCESSIBILITY": "1",
+    "USERNAME": "thels",
+    "GNOME_SHELL_SESSION_MODE": "ubuntu",
+    "SHLVL": "1",
+    "XAUTHORITY": "/run/user/1000/gdm/Xauthority",
+    "COLORTERM": "truecolor",
+    "IM_CONFIG_PHASE": "2",
+    "TERM": "xterm-256color",
+    "GDMSESSION": "ubuntu",
+    "XDG_SESSION_CLASS": "user",
+    "OLDPWD": "/home/thels/Documenten/codaisseur/week7",
+    "ZSH": "/home/thels/.oh-my-zsh",
+    "PAGER": "less",
+    "LESS": "-R",
+    "LSCOLORS": "Gxfxcxdxbxegedabagacad",
+    "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:",
+    "NVM_DIR": "/home/thels/.nvm",
+    "NVM_CD_FLAGS": "-q",
+    "NVM_BIN": "/home/thels/.nvm/versions/node/v12.8.1/bin",
+    "_": "/home/thels/.nvm/versions/node/v12.8.1/bin/nodemon"
+  },
+  "userLimits": {
+    "core_file_size_blocks": {
+      "soft": 0,
+      "hard": "unlimited"
+    },
+    "data_seg_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "file_size_blocks": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_locked_memory_bytes": {
+      "soft": 67108864,
+      "hard": 67108864
+    },
+    "max_memory_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "open_files": {
+      "soft": 524288,
+      "hard": 524288
+    },
+    "stack_size_bytes": {
+      "soft": 8388608,
+      "hard": "unlimited"
+    },
+    "cpu_time_seconds": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_user_processes": {
+      "soft": 31220,
+      "hard": 31220
+    },
+    "virtual_memory_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    }
+  },
+  "sharedObjects": [
+    "linux-vdso.so.1",
+    "/lib/x86_64-linux-gnu/libdl.so.2",
+    "/lib/x86_64-linux-gnu/librt.so.1",
+    "/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libpthread.so.0",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "/lib64/ld-linux-x86-64.so.2",
+    "/home/thels/Documenten/codaisseur/week7/battleship-server/node_modules/bcrypt/lib/binding/bcrypt_lib.node",
+    "/lib/x86_64-linux-gnu/libnss_files.so.2"
+  ]
+}

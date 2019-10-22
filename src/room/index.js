@@ -30,7 +30,7 @@ roomRouter.post("/createroom", async (req, res) => {
 
     const room = await Room.create({
       roomname: req.body.roomname.trim(),
-      max_players: 8,
+      max_players: 2,
       vert_size: 8,
       hori_size: 8,
     })
@@ -44,9 +44,9 @@ roomRouter.post("/createroom", async (req, res) => {
       content: `${req.user.username} has created the room.`,
       roomId: room.id,
     })
-    await AvailableShip.create({ length: 5, width: 1, roomId: room.id })
-    await AvailableShip.create({ length: 4, width: 2, roomId: room.id })
-    await AvailableShip.create({ length: 3, width: 3, roomId: room.id })
+    await AvailableShip.create({ length: 4, width: 1, roomId: room.id })
+    await AvailableShip.create({ length: 3, width: 1, roomId: room.id })
+    await AvailableShip.create({ length: 2, width: 2, roomId: room.id })
     streamUpdate()
     return res.send({
       success: true,

@@ -9,6 +9,7 @@ const userRouter = new Router()
 
 userRouter.post("/register", async (req, res) => {
   try {
+    console.log("Register body:", req.body)
 
     if (!req.body.username || !req.body.username.trim()) {
       return res.status(400).send({
